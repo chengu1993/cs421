@@ -78,12 +78,48 @@ val it = () : unit
 ## Extra Credit
 ### a: member function
 The idea is the same as `insert` function. Starting from the root node, compare _key_ with _key of current node_. If _key_ equals to _key of current node_, we can return true. If _key_ is smaller than _key of current node_, we recursively search the left sub tree. If larger, we search the right sub tree.
+#### Test
+```
+val root1 = insert("t", 
+				insert("s", 
+					insert("b", 
+						insert("f", 
+							insert("p", 
+								insert("i", 
+									insert("p", 
+										insert("s", 
+											insert("t", LEAF)))))))))
+
+val root2 = insert("i", 
+				insert("h", 
+					insert("g", 
+						insert("f", 
+							insert("e", 
+								insert("d", 
+									insert("c", 
+										insert("b", 
+											insert("a", LEAF)))))))))
+
+val exist1 = member("t", root1) (*should return true*)
+
+val exist2 = member("a", root1) (*should return false*)
+```
 ### b: extend to support mapping of keys to bindings
 Below is the definition of a generic tree.
 ```
 datatype 'a tree = LEAF | TREEMAP of 'a tree * key * 'a tree * 'a
 ```
 The basic idea of  `insert` and `lookup` function is the same as previous one. I define a **KeyNotExist** exception for `lookup` function, which will be raise when a certain cannot be found in the tree.
+#### Test
+```
+val root3 = insert("a", insert("b", LEAF, 2), 3)
+
+val value1 = lookup("a", root3) (*should return 3*)
+
+val value2 = lookup("b", root3) (*should return 2*)
+
+(*val value3 = lookup("c", root3)*) (*uncomment to test excpetion, should raise KeyNotExist exception*)
+```
 ### c: demonstrate these trees are not balanced
 * t s p i p f b s t
 ```
