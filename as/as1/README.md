@@ -116,10 +116,10 @@ a
                     f
                       \
                         g
-			 			     \
-			   			       h
-			     			     \
-			       			       i
+                          \
+                            h
+                              \
+                                i
 ```
 The situation is almost the same as the previous one. The tree is like a single linked list, which achieves the worst case time complexity **O(N)**.
 ### d: find an algorithm that rebalances on insertion rather than lookup.
