@@ -1,5 +1,7 @@
+type svalue = Tokens.svalue
 type pos = int
-type lexresult = Tokens.token
+type ('a, 'b) token = ('a, 'b) Tokens.token
+type lexresult = (svalue, pos) token
 
 val commentLevel = ref 0
 val inString = ref false
@@ -38,6 +40,7 @@ fun translate (s : string, pos: int) =
 
 
 %%
+%header (functor TigerLexFun(structure Tokens : Tiger_TOKENS));
 %s COMMENT STRING MULTILINE;
 alpha=[A-Za-z];
 digit=[0-9];

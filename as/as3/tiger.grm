@@ -1,0 +1,160 @@
+%%
+%term
+    EOF 
+  | ID of string
+  | INT of int | STRING of string 
+  | COMMA | COLON | SEMICOLON | LPAREN | RPAREN | LBRACK | RBRACK 
+  | LBRACE | RBRACE | DOT 
+  | PLUS | MINUS | TIMES | DIVIDE | EQ | NEQ | LT | LE | GT | GE | UMINUS
+  | AND | OR | ASSIGN
+  | ARRAY | IF | THEN | ELSE | WHILE | FOR | TO | DO | LET | IN | END | OF 
+  | BREAK | NIL
+  | FUNCTION | VAR | TYPE 
+
+%nonterm 
+     program
+   | record_exp | record_aux 
+   | func_exp | func_aux
+   | lvalue | lvalue_aux 
+   | expseq | expseq_aux 
+   | decs | dec | fundecs | fundec | tydecs | tydec | tyfields | tyfields_aux | vardec | ty
+   | let_exp | assign_exp | array_exp | loop_exp | if_exp | ari_exp | bool_exp | cmp_exp | uni_exp | exp
+
+%pos int
+%verbose
+
+%nonassoc DO
+%nonassoc THEN
+%nonassoc ELSE
+%nonassoc ASSIGN
+%nonassoc OF
+%left OR
+%left AND
+%nonassoc EQ NEQ LT GT LE GE
+%nonassoc FUNCTION TYPE
+%left PLUS MINUS
+%left TIMES DIVIDE
+%left UMINUS
+
+
+%start program
+
+%eop EOF
+%noshift EOF
+
+%name Tiger
+
+%keyword WHILE FOR TO BREAK LET IN END FUNCTION VAR TYPE ARRAY IF THEN ELSE 
+	DO OF NIL
+
+%prefer THEN ELSE LPAREN
+
+%value ID ("bogus")
+%value INT (1)
+%value STRING ("")
+
+%%
+
+program	: exp				                     ()
+
+decs :                                                       ()
+     | dec decs                                              ()
+
+dec : tydecs                                                  ()
+    | vardec                                                 ()
+    | fundecs                                                 ()
+
+tydecs : TYPE ID EQ ty ()
+    | TYPE ID EQ ty tydecs ()
+
+ty  : ID                                                     ()
+    | LBRACE tyfields RBRACE                                 ()
+    | ARRAY OF ID                                            ()
+
+tyfields :                                                   ()
+         | ID COLON ID tyfields_aux                          ()
+
+tyfields_aux :                                               ()
+             | COMMA ID COLON ID tyfields_aux                ()
+
+vardec : VAR ID ASSIGN exp                                   ()
+       | VAR ID COLON ID ASSIGN exp                          ()
+
+fundecs :  FUNCTION ID LPAREN tyfields RPAREN EQ exp        ()
+       | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp  ()
+       | FUNCTION ID LPAREN tyfields RPAREN EQ exp  fundecs      ()
+       | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp fundecs ()
+
+
+exp : LPAREN expseq RPAREN                                   ()
+    | let_exp                                                ()
+    | loop_exp                                               ()
+    | if_exp                                                 ()
+    | assign_exp                                             ()
+    | array_exp                                              ()
+    | record_exp                                             ()
+    | func_exp                                               () 
+    | ari_exp                                                ()
+    | bool_exp                                               ()
+    | cmp_exp                                                ()
+    | uni_exp                                                ()
+    | lvalue                                                 ()
+
+let_exp : LET decs IN expseq END                             ()
+
+assign_exp : lvalue ASSIGN exp                               ()
+
+array_exp : ID LBRACK exp RBRACK OF exp                      ()
+ 
+uni_exp : INT                                                ()
+        | NIL                                                () 
+        | STRING                                             ()
+ 
+loop_exp : BREAK                                             ()
+         | WHILE exp DO exp                                  ()
+         | FOR ID ASSIGN exp TO exp DO exp                   ()
+
+if_exp : IF exp THEN exp                                     ()
+       | IF exp THEN exp ELSE exp                            ()
+    
+ari_exp : exp PLUS exp                                       ()
+        | exp MINUS exp                                      ()
+        | exp TIMES exp                                      ()
+        | exp DIVIDE exp                                     ()
+        | MINUS exp %prec UMINUS                             ()
+ 
+bool_exp : exp AND exp                                       ()
+         | exp OR exp                                        ()
+
+cmp_exp : exp EQ exp                                         ()
+        | exp NEQ exp                                        ()
+        | exp GT exp                                         ()
+        | exp LT exp                                         ()
+        | exp GE exp                                         ()
+        | exp LE exp                                         ()
+ 
+expseq :                                                     ()
+       | exp expseq_aux                                      ()
+
+expseq_aux :                                                 ()
+        | SEMICOLON exp expseq_aux		    	     ()
+
+lvalue  : ID lvalue_aux ()
+
+lvalue_aux :                                                 () 
+           | DOT ID lvalue_aux                               ()
+           | LBRACK exp RBRACK lvalue_aux                    ()
+
+record_exp : ID LBRACE RBRACE                                ()
+           | ID LBRACE ID EQ exp record_aux RBRACE           ()
+   
+    
+record_aux  :                                                () 
+    | COMMA ID EQ exp record_aux                             ()
+
+func_exp : ID LPAREN RPAREN                                  ()
+         | ID LPAREN exp func_aux RPAREN                     ()
+
+func_aux  :                                                  ()
+    | COMMA exp func_aux                                     ()
+

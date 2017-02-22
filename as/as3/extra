@@ -1,0 +1,62 @@
+For this question I think there are two methods.
+
+The first one is pretty naive, we can enumerate all the possibilities. So there will be 0! + 1! + 2! + 3! + 4! + 5! rules. I use a python script to list all the possibilities. I copy a subset of the result below.
+
+
+transient
+synchronized
+public
+static
+final
+transient synchronized
+transient public
+transient static
+transient final
+synchronized transient
+synchronized public
+synchronized static
+synchronized final
+public transient
+public synchronized
+public static
+public final
+static transient
+
+...
+
+final static transient synchronized public
+final static transient public synchronized
+final static synchronized transient public
+final static synchronized public transient
+final static public transient synchronized
+final static public synchronized transient
+
+The second approach is my guess. Maybe we can use actions to eliminate those invalid combinations. We can define a counter for each modifier. For example
+val public_c = ref 1;
+val transient = ref 1;
+val synchronized = ref 1;
+val static = ref 1;
+val final = ref 1;
+
+Every time a modifier is used, the corresponding counter decrements. When we reduce the rules, we check if all the counters greater or equal to zero.
+
+Then we can define terminals and non terminals and the rules
+%term
+public | transient | synchronized | static | final
+
+%nonterm
+method_modifiers | mothed_modifer
+
+%rule
+
+method_modifiers : method_modifier                      (*check all the counters*)
+                 | method_modifiers method_modifier     (*check all the counters*)
+
+method_modifier : public            (pulic_c := !public_c - 1);
+                | static            (static_c := !static_c - 1);
+                | final             (final_c := !final_c - 1);
+                | synchronized      (synchronized_c := !synchronized_c - 1);
+                | transient         (transient_c := !transient_c - 1);
+
+The overall idea here is to do checking at last, we do not eliminate rules in the derivation steps. We eliminate those invalid rules in the final reduce step.
+
