@@ -6,7 +6,7 @@ sig
   type ty
 
   datatype enventry 
-    = VARentry of {access: access, ty: ty, assignable: bool}
+    = VARentry of {access: access, ty: ty}
     | FUNentry of {level: level, label: label, formals: ty list, result: ty}
 
   type tenv = ty Symbol.table
@@ -28,7 +28,7 @@ struct
   type ty = T.ty
 
   datatype enventry 
-    = VARentry of {access: access, ty: ty, assignable: bool}
+    = VARentry of {access: access, ty: ty}
     | FUNentry of {level: level, label: label, formals: ty list, result: ty}
 
   type tenv = ty Symbol.table

@@ -15,7 +15,7 @@ struct
     let fun h(k) = 
           if (k <= num_of_tests) then
             (let val name = Format.format "test%d.tig" [Format.INT (k)] 
-                val dirname = "/Users/chengu/git/cs421/as/testcases/"
+                 val dirname = "/c/cs421/as/testcases/"
               in print "\n";
                  print "------------------parsing ";
                  print name;
