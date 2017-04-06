@@ -1,0 +1,85 @@
+--------------------------------------------------------------------------
+Here are the final assignments about who will work on which project.
+
+1. Groups to work on the ItreeGen project:
+
+   IG0 Fu, Christopher      christopher.fu@yale.edu            cf449
+   IG1 Honore, Wolf         wolf.honore@yale.edu               wlh23
+   IG2 Siegel, Jack         j.siegel@yale.edu                  js2985   
+   IG3 Tan, Katherine       katherine.tan@yale.edu             ktt7     
+   IG4 Chute, Christopher   christopher.chute@yale.edu         cac258
+   IG5 Formiga, Rheno       rheno.formiga@yale.edu             raf57
+   IG6 Wang, Justin         justin.wang@yale.edu               jcw88    
+   IG7 Xue, Anton           anton.xue@yale.edu                 ayx2     
+   IG8 Deng, Shuwen         shuwen.deng@yale.edu               sd628
+   IG9 Guo, Peizhen         peizhen.guo@yale.edu               pg438    
+   IGX Tong, Benjamin       benjamin.tong@yale.edu             bxt2
+
+2. Groups to work on the CodeGen project:
+
+   CG0 Danilek, Lee         lee.danilek@yale.edu               led42
+   CG1 MacLean, Steven      steven.maclean@yale.edu            sm2369   
+   CG2 Pasternak, Charlie   charlie.pasternak@yale.edu         cep47    
+   CG3 Shi, Justin          justin.shi@yale.edu                jms369   
+   CG4 Chen, Qingyang       qingyang.chen@yale.edu             qc43
+   CG5 Zhang, Yinfeng       yinfeng.zhang@yale.edu             yz683    
+   CG6 Zheng, Sylvan        sylvan.zheng@yale.edu              saz8     
+   CG7 Lai, Jeffrey         jeffrey.lai@yale.edu               jpl49
+   CG8 Malik, Adisa         adisa.malik@yale.edu               atm37
+   CG9 Petrochko, Tyler     tyler.petrochko@yale.edu           thp8     
+   CGX Cao, Zhendong        zhendong.cao@yale.edu              zc244
+
+3. Groups to work on the RegAlloc project:
+
+   RA0 Brady, Matthew       matthew.brady@yale.edu             mb2278
+   RA1 Proctor, Charles     charles.proctor@yale.edu           crp43    
+   RA2 Russi, Marcus        marcus.russi@yale.edu              mwr8     
+   RA3 Chen, Wendy          wendy.w.chen@yale.edu              wwc22
+   RA4 Gu, Chen             chen.gu@yale.edu                   cg736
+   RA5 Leibovic, Daniel     daniel.leibovic@yale.edu           djl73    
+   RA6 Swidwinski, Stan     stanislaw.swidwinski@yale.edu      ss2755   
+   RA7 Weinberger, Ethan    ethan.weinberger@yale.edu          efw9     
+   RA8 Zou, Jefferson       jefferson.zou@yale.edu             jzz3
+   RA9 Guha, Sumedh         sumedh.guha@yale.edu               sg688    
+
+--------------------------------------------------------------------------
+Please post your questions, concerns, advertisements to the piazza forum.
+I expect we will have a lively discussion in the next few weeks.
+--------------------------------------------------------------------------
+
+In addition, I'll ask the CS Facility to create the following 
+user groups (on all ZOO machines): 
+
+cs421ig: led42,sm2369,cep47,jms369,qc43,yz683,saz8,jpl49,atm37,thp8,zc244,mb2278,crp43,mwr8,wwc22,cg736,djl73,ss2755,efw9,jzz3,sg688
+
+cs421cg: cf449,wlh23,js2985,ktt7,cac258,raf57,jcw88,ayx2,sd628,pg438,bxt2,mb2278,crp43,mwr8,wwc22,cg736,djl73,ss2755,efw9,jzz3,sg688
+
+cs421ra: cf449,wlh23,js2985,ktt7,cac258,raf57,jcw88,ayx2,sd628,pg438,bxt2,led42,sm2369,cep47,jms369,qc43,yz683,saz8,jpl49,atm37,thp8,zc244,
+
+Each IG directory will be owned by a specific IG team member and also the 
+cs421ig group that contains members of those groups working on CG and RA
+modules.
+
+Each CG directory will be owned by a specific CG team member and also the 
+cs421cg group that contains members of those groups working on IG and RA
+modules.
+
+Each RA directory will be owned by a specific RA team member and also the 
+cs421ra group that contains members of those groups working on IG and CG
+modules.
+
+You can use the "groups" command to check what groups you are
+currently in.
+
+The /c/cs421/as/Public directory now contains 6 directories: 
+                                       6a, 6b, 6c, 6d, 6e, cur
+
+You can use "cur" as your current working directory and use 6a-e 
+as your checkpoint directories. Each of these directories contains 
+a subdirectory for each group, named with your group code:
+
+  IG0, IG1, IG2, IG3, IG4, IG5, IG6, IG7, IG8, IG9, IGX,
+  CG0, CG1, CG2, CG3, CG4, CG5, CG6, CG7, CG8, CG9, CGX,
+  RA0, RA1, RA2, RA3, RA4, RA5, RA6, RA7, RA8, RA9
+
+--------------------------------------------------------------------------
