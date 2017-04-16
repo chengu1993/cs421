@@ -1,0 +1,6 @@
+let
+var x := 3
+function f(y: int): int = x + y
+in
+f(4)
+end

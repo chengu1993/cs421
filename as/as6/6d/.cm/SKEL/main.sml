@@ -1,0 +1,2 @@
+Skeleton 5
+d3f8d"List"дўTemp"d"MakeGraph"Cd"Liveness"d"TextIO"дўAssem"d"Canon"d"Parse"NaгўMAIN"h0ad"Main"jh7ad"Semant"jзр±дўRegister"gp1e"SemantGen"ad"RegAlloc"jяЃ,gp1e"RegAllocGen"CaдўC"gp1d"Codegen"aдўF"gp2я‚,я‚>ad"R"яЃ,ad"T"gp1яad"A"gp1я3Ngp1яЃ

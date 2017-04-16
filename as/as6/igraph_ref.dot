@@ -1,0 +1,9 @@
+digraph g { 
+size="7,10"
+n1[shape=box,height=0.1,label="n1\nn0\n"];
+n3[shape=box,height=0.1,label="n3\nn2\n"];
+n5[shape=box,height=0.1,label="n5\nn4\n"];
+n7[shape=box,height=0.1,label="n7\nn6\n"];
+n9[shape=box,height=0.1,label="n9\nn8\n"];
+}
+

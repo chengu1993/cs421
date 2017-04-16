@@ -1,0 +1,41 @@
+I put the array bounds and nil record checks in runtime.c to make the
+implementation cleaner. I also modified initArray to store the array size, and
+added an explicit declaration of tigermain to appease gcc. This means that you
+need to use my runtime.c in order to use my ItreeGen. To automatically print
+the result of a Tiger program, simply uncomment line 90.
+
+I included all of my FrontEnd code from the earlier assignments, modifying my
+semant.sml from as5 to handle intermediate code translation. I also refactored
+some of the provided starter code to improve readability and safety. For
+example, I replaced "type label = Symbol.symbol" with "eqtype label" in the
+signature of TEMP in temp.sml to guard against accidentally using an abstract
+syntax function name as a PROC fragment label.
+
+The CodeGen and FrontEnd directories contain symlinks to Lee's CodeGen
+implementation (CG0) and Stan's RegAlloc implementation (RA6). My ItreeGen
+implementation passes all public tests when used with CG0 and RA6.
+
+CodeGen folks: for a list of arguments in T.CALL, I assume that the first
+argument has offset 0, and I assume that Register.paramBaseOffset is negative.
+
+Additional selling point:
+
+$ cloc semant.sml
+Language                     files          blank        comment           code
+Standard ML                      1             12              0            381
+$ cloc frame.sml
+Language                     files          blank        comment           code
+Standard ML                      1              1              0             31
+$ cloc translate.sml
+Language                     files          blank        comment           code
+Standard ML                      1             35              0            218
+$ cloc env.sml
+Language                     files          blank        comment           code
+Standard ML                      1              1              0             46
+
+Fewer lines = fewer lines on which there could be bugs.
+
+-- USAGE --
+
+I updated main.sml so that Main.compile only generates assembly code for a
+program if it makes it through the typechecker without generating any errors.

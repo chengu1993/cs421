@@ -1,0 +1,3 @@
+let var x := 5 in
+while x > 0 do (print("x is going down\n"); x := x - 1)
+end

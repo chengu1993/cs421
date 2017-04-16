@@ -1,0 +1,2731 @@
+
+state 0:
+
+	prog : . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	prog	goto 147
+	e	goto 2
+	lvalue	goto 1
+
+	.	error
+
+
+state 1:
+
+	e : lvalue .  (reduce by rule 1)
+	e : lvalue . ASSIGN e 
+	lvalue : lvalue . DOT ID 
+	lvalue : lvalue . LBRACK e RBRACK 
+
+	ASSIGN	shift 16
+	DOT	shift 15
+	LBRACK	shift 14
+
+
+	.	reduce by rule 1
+
+
+state 2:
+
+	prog : e .  (reduce by rule 0)
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 0
+
+
+state 3:
+
+	e : ID . LPAREN RPAREN 
+	e : ID . LPAREN args RPAREN 
+	e : ID . LBRACE RBRACE 
+	e : ID . LBRACE efields RBRACE 
+	e : ID . LBRACK e RBRACK OF e 
+	lvalue : ID .  (reduce by rule 35)
+	lvalue : ID . LBRACK e RBRACK 
+
+	LBRACE	shift 31
+	LBRACK	shift 30
+	LPAREN	shift 29
+
+
+	.	reduce by rule 35
+
+
+state 4:
+
+	e : INT .  (reduce by rule 3)
+
+
+
+	.	reduce by rule 3
+
+
+state 5:
+
+	e : STRING .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 6:
+
+	e : LPAREN . RPAREN 
+	e : LPAREN . e RPAREN 
+	e : LPAREN . e SEMICOLON seqe RPAREN 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	RPAREN	shift 33
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 32
+	lvalue	goto 1
+
+	.	error
+
+
+state 7:
+
+	e : MINUS . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 34
+	lvalue	goto 1
+
+	.	error
+
+
+state 8:
+
+	e : IF . e THEN e 
+	e : IF . e THEN e ELSE e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 35
+	lvalue	goto 1
+
+	.	error
+
+
+state 9:
+
+	e : WHILE . e DO e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 36
+	lvalue	goto 1
+
+	.	error
+
+
+state 10:
+
+	e : FOR . ID ASSIGN e TO e DO e 
+
+	ID	shift 37
+
+
+	.	error
+
+
+state 11:
+
+	e : LET . decs IN seqes END 
+
+	TYPE	shift 45
+	VAR	shift 44
+	FUNCTION	shift 43
+
+	decs	goto 42
+	dec	goto 41
+	fundecs	goto 40
+	fundec	goto 39
+	tydecs	goto 38
+
+	.	reduce by rule 46
+
+
+state 12:
+
+	e : NIL .  (reduce by rule 2)
+
+
+
+	.	reduce by rule 2
+
+
+state 13:
+
+	e : BREAK .  (reduce by rule 30)
+
+
+
+	.	reduce by rule 30
+
+
+state 14:
+
+	lvalue : lvalue LBRACK . e RBRACK 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 46
+	lvalue	goto 1
+
+	.	error
+
+
+state 15:
+
+	lvalue : lvalue DOT . ID 
+
+	ID	shift 47
+
+
+	.	error
+
+
+state 16:
+
+	e : lvalue ASSIGN . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 48
+	lvalue	goto 1
+
+	.	error
+
+
+state 17:
+
+	e : e PLUS . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 49
+	lvalue	goto 1
+
+	.	error
+
+
+state 18:
+
+	e : e MINUS . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 50
+	lvalue	goto 1
+
+	.	error
+
+
+state 19:
+
+	e : e TIMES . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 51
+	lvalue	goto 1
+
+	.	error
+
+
+state 20:
+
+	e : e DIVIDE . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 52
+	lvalue	goto 1
+
+	.	error
+
+
+state 21:
+
+	e : e EQ . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 53
+	lvalue	goto 1
+
+	.	error
+
+
+state 22:
+
+	e : e NEQ . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 54
+	lvalue	goto 1
+
+	.	error
+
+
+state 23:
+
+	e : e LT . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 55
+	lvalue	goto 1
+
+	.	error
+
+
+state 24:
+
+	e : e LE . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 56
+	lvalue	goto 1
+
+	.	error
+
+
+state 25:
+
+	e : e GT . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 57
+	lvalue	goto 1
+
+	.	error
+
+
+state 26:
+
+	e : e GE . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 58
+	lvalue	goto 1
+
+	.	error
+
+
+state 27:
+
+	e : e AND . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 59
+	lvalue	goto 1
+
+	.	error
+
+
+state 28:
+
+	e : e OR . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 60
+	lvalue	goto 1
+
+	.	error
+
+
+state 29:
+
+	e : ID LPAREN . RPAREN 
+	e : ID LPAREN . args RPAREN 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	RPAREN	shift 63
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 62
+	lvalue	goto 1
+	args	goto 61
+
+	.	error
+
+
+state 30:
+
+	e : ID LBRACK . e RBRACK OF e 
+	lvalue : ID LBRACK . e RBRACK 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 64
+	lvalue	goto 1
+
+	.	error
+
+
+state 31:
+
+	e : ID LBRACE . RBRACE 
+	e : ID LBRACE . efields RBRACE 
+
+	RBRACE	shift 67
+	ID	shift 66
+
+	efields	goto 65
+
+	.	error
+
+
+state 32:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : LPAREN e . RPAREN 
+	e : LPAREN e . SEMICOLON seqe RPAREN 
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RPAREN	shift 69
+	SEMICOLON	shift 68
+
+
+	.	error
+
+
+state 33:
+
+	e : LPAREN RPAREN .  (reduce by rule 22)
+
+
+
+	.	reduce by rule 22
+
+
+state 34:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : MINUS e .  (reduce by rule 11)
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+
+
+	.	reduce by rule 11
+
+
+state 35:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : IF e . THEN e 
+	e : IF e . THEN e ELSE e 
+
+	THEN	shift 70
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	error
+
+
+state 36:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : WHILE e . DO e 
+
+	DO	shift 71
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	error
+
+
+state 37:
+
+	e : FOR ID . ASSIGN e TO e DO e 
+
+	ASSIGN	shift 72
+
+
+	.	error
+
+
+state 38:
+
+	dec : tydecs .  (reduce by rule 47)
+
+
+
+	.	reduce by rule 47
+
+
+state 39:
+
+	fundecs : fundec .  (reduce by rule 60)
+	fundecs : fundec . fundecs 
+
+	FUNCTION	shift 43
+
+	fundecs	goto 73
+	fundec	goto 39
+
+	.	reduce by rule 60
+
+
+state 40:
+
+	dec : fundecs .  (reduce by rule 50)
+
+
+
+	.	reduce by rule 50
+
+
+state 41:
+
+	decs : dec . decs 
+
+	TYPE	shift 45
+	VAR	shift 44
+	FUNCTION	shift 43
+
+	decs	goto 74
+	dec	goto 41
+	fundecs	goto 40
+	fundec	goto 39
+	tydecs	goto 38
+
+	.	reduce by rule 46
+
+
+state 42:
+
+	e : LET decs . IN seqes END 
+
+	IN	shift 75
+
+
+	.	error
+
+
+state 43:
+
+	fundec : FUNCTION . ID fml funres EQ e 
+
+	ID	shift 76
+
+
+	.	error
+
+
+state 44:
+
+	dec : VAR . ID ASSIGN e 
+	dec : VAR . ID COLON ID ASSIGN e 
+
+	ID	shift 77
+
+
+	.	error
+
+
+state 45:
+
+	tydecs : TYPE . ID EQ ty 
+	tydecs : TYPE . ID EQ ty tydecs 
+
+	ID	shift 78
+
+
+	.	error
+
+
+state 46:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	lvalue : lvalue LBRACK e . RBRACK 
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACK	shift 79
+
+
+	.	error
+
+
+state 47:
+
+	lvalue : lvalue DOT ID .  (reduce by rule 36)
+
+
+
+	.	reduce by rule 36
+
+
+state 48:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : lvalue ASSIGN e .  (reduce by rule 25)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 25
+
+
+state 49:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e PLUS e .  (reduce by rule 9)
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	DIVIDE	shift 20
+	TIMES	shift 19
+
+
+	.	reduce by rule 9
+
+
+state 50:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e MINUS e .  (reduce by rule 10)
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	DIVIDE	shift 20
+	TIMES	shift 19
+
+
+	.	reduce by rule 10
+
+
+state 51:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e TIMES e .  (reduce by rule 8)
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+
+
+	.	reduce by rule 8
+
+
+state 52:
+
+	e : e . DIVIDE e 
+	e : e DIVIDE e .  (reduce by rule 7)
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+
+
+	.	reduce by rule 7
+
+
+state 53:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e EQ e .  (reduce by rule 12)
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	TYPE	reduce by rule 12
+	VAR	reduce by rule 12
+	FUNCTION	reduce by rule 12
+	END	reduce by rule 12
+	IN	reduce by rule 12
+	DO	reduce by rule 12
+	TO	reduce by rule 12
+	ELSE	reduce by rule 12
+	THEN	reduce by rule 12
+	OR	reduce by rule 12
+	AND	reduce by rule 12
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACE	reduce by rule 12
+	RBRACK	reduce by rule 12
+	RPAREN	reduce by rule 12
+	SEMICOLON	reduce by rule 12
+	COMMA	reduce by rule 12
+	EOF	reduce by rule 12
+
+
+	.	error
+
+
+state 54:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e NEQ e .  (reduce by rule 13)
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	TYPE	reduce by rule 13
+	VAR	reduce by rule 13
+	FUNCTION	reduce by rule 13
+	END	reduce by rule 13
+	IN	reduce by rule 13
+	DO	reduce by rule 13
+	TO	reduce by rule 13
+	ELSE	reduce by rule 13
+	THEN	reduce by rule 13
+	OR	reduce by rule 13
+	AND	reduce by rule 13
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACE	reduce by rule 13
+	RBRACK	reduce by rule 13
+	RPAREN	reduce by rule 13
+	SEMICOLON	reduce by rule 13
+	COMMA	reduce by rule 13
+	EOF	reduce by rule 13
+
+
+	.	error
+
+
+state 55:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e LT e .  (reduce by rule 17)
+	e : e . AND e 
+	e : e . OR e 
+
+	TYPE	reduce by rule 17
+	VAR	reduce by rule 17
+	FUNCTION	reduce by rule 17
+	END	reduce by rule 17
+	IN	reduce by rule 17
+	DO	reduce by rule 17
+	TO	reduce by rule 17
+	ELSE	reduce by rule 17
+	THEN	reduce by rule 17
+	OR	reduce by rule 17
+	AND	reduce by rule 17
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACE	reduce by rule 17
+	RBRACK	reduce by rule 17
+	RPAREN	reduce by rule 17
+	SEMICOLON	reduce by rule 17
+	COMMA	reduce by rule 17
+	EOF	reduce by rule 17
+
+
+	.	error
+
+
+state 56:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e LE e .  (reduce by rule 16)
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	TYPE	reduce by rule 16
+	VAR	reduce by rule 16
+	FUNCTION	reduce by rule 16
+	END	reduce by rule 16
+	IN	reduce by rule 16
+	DO	reduce by rule 16
+	TO	reduce by rule 16
+	ELSE	reduce by rule 16
+	THEN	reduce by rule 16
+	OR	reduce by rule 16
+	AND	reduce by rule 16
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACE	reduce by rule 16
+	RBRACK	reduce by rule 16
+	RPAREN	reduce by rule 16
+	SEMICOLON	reduce by rule 16
+	COMMA	reduce by rule 16
+	EOF	reduce by rule 16
+
+
+	.	error
+
+
+state 57:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e GT e .  (reduce by rule 15)
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	TYPE	reduce by rule 15
+	VAR	reduce by rule 15
+	FUNCTION	reduce by rule 15
+	END	reduce by rule 15
+	IN	reduce by rule 15
+	DO	reduce by rule 15
+	TO	reduce by rule 15
+	ELSE	reduce by rule 15
+	THEN	reduce by rule 15
+	OR	reduce by rule 15
+	AND	reduce by rule 15
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACE	reduce by rule 15
+	RBRACK	reduce by rule 15
+	RPAREN	reduce by rule 15
+	SEMICOLON	reduce by rule 15
+	COMMA	reduce by rule 15
+	EOF	reduce by rule 15
+
+
+	.	error
+
+
+state 58:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e GE e .  (reduce by rule 14)
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+
+	TYPE	reduce by rule 14
+	VAR	reduce by rule 14
+	FUNCTION	reduce by rule 14
+	END	reduce by rule 14
+	IN	reduce by rule 14
+	DO	reduce by rule 14
+	TO	reduce by rule 14
+	ELSE	reduce by rule 14
+	THEN	reduce by rule 14
+	OR	reduce by rule 14
+	AND	reduce by rule 14
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACE	reduce by rule 14
+	RBRACK	reduce by rule 14
+	RPAREN	reduce by rule 14
+	SEMICOLON	reduce by rule 14
+	COMMA	reduce by rule 14
+	EOF	reduce by rule 14
+
+
+	.	error
+
+
+state 59:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e AND e .  (reduce by rule 18)
+	e : e . OR e 
+
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 18
+
+
+state 60:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : e OR e .  (reduce by rule 19)
+
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 19
+
+
+state 61:
+
+	e : ID LPAREN args . RPAREN 
+
+	RPAREN	shift 80
+
+
+	.	error
+
+
+state 62:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	args : e .  (reduce by rule 33)
+	args : e . COMMA args 
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	COMMA	shift 81
+
+
+	.	reduce by rule 33
+
+
+state 63:
+
+	e : ID LPAREN RPAREN .  (reduce by rule 5)
+
+
+
+	.	reduce by rule 5
+
+
+state 64:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : ID LBRACK e . RBRACK OF e 
+	lvalue : ID LBRACK e . RBRACK 
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	RBRACK	shift 82
+
+
+	.	error
+
+
+state 65:
+
+	e : ID LBRACE efields . RBRACE 
+
+	RBRACE	shift 83
+
+
+	.	error
+
+
+state 66:
+
+	efields : ID . EQ e COMMA efields 
+	efields : ID . EQ e 
+
+	EQ	shift 84
+
+
+	.	error
+
+
+state 67:
+
+	e : ID LBRACE RBRACE .  (reduce by rule 20)
+
+
+
+	.	reduce by rule 20
+
+
+state 68:
+
+	e : LPAREN e SEMICOLON . seqe RPAREN 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 86
+	lvalue	goto 1
+	seqe	goto 85
+
+	.	error
+
+
+state 69:
+
+	e : LPAREN e RPAREN .  (reduce by rule 23)
+
+
+
+	.	reduce by rule 23
+
+
+state 70:
+
+	e : IF e THEN . e 
+	e : IF e THEN . e ELSE e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 87
+	lvalue	goto 1
+
+	.	error
+
+
+state 71:
+
+	e : WHILE e DO . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 88
+	lvalue	goto 1
+
+	.	error
+
+
+state 72:
+
+	e : FOR ID ASSIGN . e TO e DO e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 89
+	lvalue	goto 1
+
+	.	error
+
+
+state 73:
+
+	fundecs : fundec fundecs .  (reduce by rule 61)
+
+
+
+	.	reduce by rule 61
+
+
+state 74:
+
+	decs : dec decs .  (reduce by rule 45)
+
+
+
+	.	reduce by rule 45
+
+
+state 75:
+
+	e : LET decs IN . seqes END 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 86
+	lvalue	goto 1
+	seqes	goto 91
+	seqe	goto 90
+
+	.	reduce by rule 42
+
+
+state 76:
+
+	fundec : FUNCTION ID . fml funres EQ e 
+
+	LPAREN	shift 93
+
+	fml	goto 92
+
+	.	error
+
+
+state 77:
+
+	dec : VAR ID . ASSIGN e 
+	dec : VAR ID . COLON ID ASSIGN e 
+
+	ASSIGN	shift 95
+	COLON	shift 94
+
+
+	.	error
+
+
+state 78:
+
+	tydecs : TYPE ID . EQ ty 
+	tydecs : TYPE ID . EQ ty tydecs 
+
+	EQ	shift 96
+
+
+	.	error
+
+
+state 79:
+
+	lvalue : lvalue LBRACK e RBRACK .  (reduce by rule 37)
+
+
+
+	.	reduce by rule 37
+
+
+state 80:
+
+	e : ID LPAREN args RPAREN .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 81:
+
+	args : e COMMA . args 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 62
+	lvalue	goto 1
+	args	goto 97
+
+	.	error
+
+
+state 82:
+
+	e : ID LBRACK e RBRACK . OF e 
+	lvalue : ID LBRACK e RBRACK .  (reduce by rule 38)
+
+	OF	shift 98
+
+
+	.	reduce by rule 38
+
+
+state 83:
+
+	e : ID LBRACE efields RBRACE .  (reduce by rule 21)
+
+
+
+	.	reduce by rule 21
+
+
+state 84:
+
+	efields : ID EQ . e COMMA efields 
+	efields : ID EQ . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 99
+	lvalue	goto 1
+
+	.	error
+
+
+state 85:
+
+	e : LPAREN e SEMICOLON seqe . RPAREN 
+
+	RPAREN	shift 100
+
+
+	.	error
+
+
+state 86:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	seqe : e . SEMICOLON seqe 
+	seqe : e .  (reduce by rule 44)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	SEMICOLON	shift 101
+
+
+	.	reduce by rule 44
+
+
+state 87:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : IF e THEN e .  (reduce by rule 26)
+	e : IF e THEN e . ELSE e 
+
+	ELSE	shift 102
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 26
+
+
+state 88:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : WHILE e DO e .  (reduce by rule 28)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 28
+
+
+state 89:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : FOR ID ASSIGN e . TO e DO e 
+
+	TO	shift 103
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	error
+
+
+state 90:
+
+	seqes : seqe .  (reduce by rule 41)
+
+
+
+	.	reduce by rule 41
+
+
+state 91:
+
+	e : LET decs IN seqes . END 
+
+	END	shift 104
+
+
+	.	error
+
+
+state 92:
+
+	fundec : FUNCTION ID fml . funres EQ e 
+
+	COLON	shift 106
+
+	funres	goto 105
+
+	.	reduce by rule 63
+
+
+state 93:
+
+	fml : LPAREN . RPAREN 
+	fml : LPAREN . fmls RPAREN 
+
+	RPAREN	shift 109
+	ID	shift 108
+
+	fmls	goto 107
+
+	.	error
+
+
+state 94:
+
+	dec : VAR ID COLON . ID ASSIGN e 
+
+	ID	shift 110
+
+
+	.	error
+
+
+state 95:
+
+	dec : VAR ID ASSIGN . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 111
+	lvalue	goto 1
+
+	.	error
+
+
+state 96:
+
+	tydecs : TYPE ID EQ . ty 
+	tydecs : TYPE ID EQ . ty tydecs 
+
+	ARRAY	shift 115
+	LBRACE	shift 114
+	ID	shift 113
+
+	ty	goto 112
+
+	.	error
+
+
+state 97:
+
+	args : e COMMA args .  (reduce by rule 34)
+
+
+
+	.	reduce by rule 34
+
+
+state 98:
+
+	e : ID LBRACK e RBRACK OF . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 116
+	lvalue	goto 1
+
+	.	error
+
+
+state 99:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	efields : ID EQ e . COMMA efields 
+	efields : ID EQ e .  (reduce by rule 40)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+	COMMA	shift 117
+
+
+	.	reduce by rule 40
+
+
+state 100:
+
+	e : LPAREN e SEMICOLON seqe RPAREN .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
+
+
+state 101:
+
+	seqe : e SEMICOLON . seqe 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 86
+	lvalue	goto 1
+	seqe	goto 118
+
+	.	error
+
+
+state 102:
+
+	e : IF e THEN e ELSE . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 119
+	lvalue	goto 1
+
+	.	error
+
+
+state 103:
+
+	e : FOR ID ASSIGN e TO . e DO e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 120
+	lvalue	goto 1
+
+	.	error
+
+
+state 104:
+
+	e : LET decs IN seqes END .  (reduce by rule 31)
+
+
+
+	.	reduce by rule 31
+
+
+state 105:
+
+	fundec : FUNCTION ID fml funres . EQ e 
+
+	EQ	shift 121
+
+
+	.	error
+
+
+state 106:
+
+	funres : COLON . ID 
+
+	ID	shift 122
+
+
+	.	error
+
+
+state 107:
+
+	fml : LPAREN fmls . RPAREN 
+
+	RPAREN	shift 123
+
+
+	.	error
+
+
+state 108:
+
+	fmls : ID . COLON ID 
+	fmls : ID . COLON ID COMMA fmls 
+
+	COLON	shift 124
+
+
+	.	error
+
+
+state 109:
+
+	fml : LPAREN RPAREN .  (reduce by rule 65)
+
+
+
+	.	reduce by rule 65
+
+
+state 110:
+
+	dec : VAR ID COLON ID . ASSIGN e 
+
+	ASSIGN	shift 125
+
+
+	.	error
+
+
+state 111:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	dec : VAR ID ASSIGN e .  (reduce by rule 48)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 48
+
+
+state 112:
+
+	tydecs : TYPE ID EQ ty .  (reduce by rule 51)
+	tydecs : TYPE ID EQ ty . tydecs 
+
+	TYPE	shift 45
+
+	tydecs	goto 126
+
+	.	reduce by rule 51
+
+
+state 113:
+
+	ty : ID .  (reduce by rule 53)
+
+
+
+	.	reduce by rule 53
+
+
+state 114:
+
+	ty : LBRACE . RBRACE 
+	ty : LBRACE . tfield tfields RBRACE 
+
+	RBRACE	shift 129
+	ID	shift 128
+
+	tfield	goto 127
+
+	.	error
+
+
+state 115:
+
+	ty : ARRAY . OF ID 
+
+	OF	shift 130
+
+
+	.	error
+
+
+state 116:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : ID LBRACK e RBRACK OF e .  (reduce by rule 32)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 32
+
+
+state 117:
+
+	efields : ID EQ e COMMA . efields 
+
+	ID	shift 66
+
+	efields	goto 131
+
+	.	error
+
+
+state 118:
+
+	seqe : e SEMICOLON seqe .  (reduce by rule 43)
+
+
+
+	.	reduce by rule 43
+
+
+state 119:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : IF e THEN e ELSE e .  (reduce by rule 27)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 27
+
+
+state 120:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : FOR ID ASSIGN e TO e . DO e 
+
+	DO	shift 132
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	error
+
+
+state 121:
+
+	fundec : FUNCTION ID fml funres EQ . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 133
+	lvalue	goto 1
+
+	.	error
+
+
+state 122:
+
+	funres : COLON ID .  (reduce by rule 64)
+
+
+
+	.	reduce by rule 64
+
+
+state 123:
+
+	fml : LPAREN fmls RPAREN .  (reduce by rule 66)
+
+
+
+	.	reduce by rule 66
+
+
+state 124:
+
+	fmls : ID COLON . ID 
+	fmls : ID COLON . ID COMMA fmls 
+
+	ID	shift 134
+
+
+	.	error
+
+
+state 125:
+
+	dec : VAR ID COLON ID ASSIGN . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 135
+	lvalue	goto 1
+
+	.	error
+
+
+state 126:
+
+	tydecs : TYPE ID EQ ty tydecs .  (reduce by rule 52)
+
+
+
+	.	reduce by rule 52
+
+
+state 127:
+
+	ty : LBRACE tfield . tfields RBRACE 
+
+	COMMA	shift 137
+
+	tfields	goto 136
+
+	.	reduce by rule 58
+
+
+state 128:
+
+	tfield : ID . COLON ID 
+
+	COLON	shift 138
+
+
+	.	error
+
+
+state 129:
+
+	ty : LBRACE RBRACE .  (reduce by rule 54)
+
+
+
+	.	reduce by rule 54
+
+
+state 130:
+
+	ty : ARRAY OF . ID 
+
+	ID	shift 139
+
+
+	.	error
+
+
+state 131:
+
+	efields : ID EQ e COMMA efields .  (reduce by rule 39)
+
+
+
+	.	reduce by rule 39
+
+
+state 132:
+
+	e : FOR ID ASSIGN e TO e DO . e 
+
+	BREAK	shift 13
+	NIL	shift 12
+	LET	shift 11
+	FOR	shift 10
+	WHILE	shift 9
+	IF	shift 8
+	MINUS	shift 7
+	LPAREN	shift 6
+	STRING	shift 5
+	INT	shift 4
+	ID	shift 3
+
+	e	goto 140
+	lvalue	goto 1
+
+	.	error
+
+
+state 133:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	fundec : FUNCTION ID fml funres EQ e .  (reduce by rule 62)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 62
+
+
+state 134:
+
+	fmls : ID COLON ID .  (reduce by rule 67)
+	fmls : ID COLON ID . COMMA fmls 
+
+	COMMA	shift 141
+
+
+	.	reduce by rule 67
+
+
+state 135:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	dec : VAR ID COLON ID ASSIGN e .  (reduce by rule 49)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 49
+
+
+state 136:
+
+	ty : LBRACE tfield tfields . RBRACE 
+
+	RBRACE	shift 142
+
+
+	.	error
+
+
+state 137:
+
+	tfields : COMMA . tfield tfields 
+
+	ID	shift 128
+
+	tfield	goto 143
+
+	.	error
+
+
+state 138:
+
+	tfield : ID COLON . ID 
+
+	ID	shift 144
+
+
+	.	error
+
+
+state 139:
+
+	ty : ARRAY OF ID .  (reduce by rule 56)
+
+
+
+	.	reduce by rule 56
+
+
+state 140:
+
+	e : e . DIVIDE e 
+	e : e . TIMES e 
+	e : e . PLUS e 
+	e : e . MINUS e 
+	e : e . EQ e 
+	e : e . NEQ e 
+	e : e . GE e 
+	e : e . GT e 
+	e : e . LE e 
+	e : e . LT e 
+	e : e . AND e 
+	e : e . OR e 
+	e : FOR ID ASSIGN e TO e DO e .  (reduce by rule 29)
+
+	OR	shift 28
+	AND	shift 27
+	GE	shift 26
+	GT	shift 25
+	LE	shift 24
+	LT	shift 23
+	NEQ	shift 22
+	EQ	shift 21
+	DIVIDE	shift 20
+	TIMES	shift 19
+	MINUS	shift 18
+	PLUS	shift 17
+
+
+	.	reduce by rule 29
+
+
+state 141:
+
+	fmls : ID COLON ID COMMA . fmls 
+
+	ID	shift 108
+
+	fmls	goto 145
+
+	.	error
+
+
+state 142:
+
+	ty : LBRACE tfield tfields RBRACE .  (reduce by rule 55)
+
+
+
+	.	reduce by rule 55
+
+
+state 143:
+
+	tfields : COMMA tfield . tfields 
+
+	COMMA	shift 137
+
+	tfields	goto 146
+
+	.	reduce by rule 58
+
+
+state 144:
+
+	tfield : ID COLON ID .  (reduce by rule 57)
+
+
+
+	.	reduce by rule 57
+
+
+state 145:
+
+	fmls : ID COLON ID COMMA fmls .  (reduce by rule 68)
+
+
+
+	.	reduce by rule 68
+
+
+state 146:
+
+	tfields : COMMA tfield tfields .  (reduce by rule 59)
+
+
+
+	.	reduce by rule 59
+
+
+state 147:
+
+
+	EOF	accept
+
+
+	.	error
+
+505 of 1009 action table entries left after compaction
+103 goto table entries

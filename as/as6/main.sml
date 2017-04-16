@@ -29,14 +29,28 @@ struct
              * Once the RegAlloc module is ready, you can get 
              * (1) a new list of body instrs together with its live 
              *     temporaries: (Assem.instr * Temp.temp list) list
-             *
-             * (2) a register allocation table
+             *)
+
+            val (fgraph as Flow.FGRAPH{control, def, use, ismove}, 
+              fnodes) = MakeGraph.instrs2graph(instrs)
+
+            val (igraph as Liveness.IGRAPH{graph, tnode, gtemp, moves},
+              livenessMap) = Liveness.interferenceGraph(fgraph)
+
+
+
+             (* (2) a register allocation table
              *
              * These information then can be fed into the C.procEntryExit
              * function to generate the proper function calling sequence,
              * procedure entry/exit sequences etc.
              *     
              *)
+
+            (*val allocation = RegAlloc.color({
+              interference=igraph,
+              initial=initial,
+              register=register})*)
 
             val format0 = Assem.format (fn t => "t" ^ Temp.makestring t)
 

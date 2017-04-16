@@ -1,3 +1,4 @@
+
 (* makegraph.sml *)
 
 signature MAKEGRAPH =
@@ -17,15 +18,17 @@ struct
 
 
   fun fake_input () =
-    let val instr1 = A.OPER{assem="add", dst=[1], src=[2], jump=NONE}
-        val instr2 = A.OPER{assem="mul", dst=[3], src=[4], jump=NONE}
-        val instr3 = A.LABEL{assem="hello", lab=Symbol.symbol("hello")}
-        val instr4 = A.OPER{assem="add", dst=[5], src=[6], jump=NONE}
-        val instr5 = A.OPER{assem="jump", dst=[9], src=[10],
-        jump=SOME([Symbol.symbol("hello")])}
-        val instr6 = A.OPER{assem="mul", dst=[7], src=[8], jump=NONE}
+    let val instr1 = A.OPER{assem="assign", dst=[1], src=[], jump=NONE}
+        val instr2 = A.LABEL{assem="hello", lab=Symbol.symbol("hello")}
+        val instr3 = A.OPER{assem="add", dst=[2], src=[1], jump=NONE}
+        val instr4 = A.OPER{assem="add", dst=[3], src=[2,3], jump=NONE}
+        val instr5 = A.OPER{assem="mul", dst=[1], src=[2], jump=NONE}
+        val instr6 = A.OPER{assem="jump", dst=[], src=[1], 
+                            jump=SOME([Symbol.symbol("hello")])}
+        val instr7 = A.OPER{assem="return", dst=[], src=[3], jump=NONE}
+   
 
-    in (instr1::(instr2::(instr3::(instr4::(instr5::[instr6]))))) end
+    in (instr1::(instr2::(instr3::(instr4::(instr5::(instr6::[instr7])))))) end
 
 
   fun bug s = ErrorMsg.impossible("Label: " ^ s ^ " does not exist")
@@ -36,6 +39,7 @@ struct
 
 
       (*
+      * generate nodes for each instructions
       * im: instructions map
       * dm: def map
       * um: use map
@@ -48,8 +52,9 @@ struct
                 mm = G.Table.empty}, nil)
 
         | instrs2nodes (a::r) =
-            let val ({im, dm, um, mm}, t) = instrs2nodes r
-                val n = G.newNode(graph)
+            let 
+              val n = G.newNode(graph)
+              val ({im, dm, um, mm}, t) = instrs2nodes r
             in (
                 (case a of
                   A.OPER{assem, dst, src, jump} =>
@@ -74,6 +79,9 @@ struct
       val ({im, dm, um, mm}, nodes) = instrs2nodes instrs
       
 
+      (*
+      * translate label to its corresponding node
+      *)
       fun label2node (im, label, nil) =
         (bug(Symbol.name label); NONE)
         | label2node (im, label, a::r) =
@@ -86,7 +94,10 @@ struct
             end
             
 
-      fun instrs2edges (im, a::(b::r)) =
+      (*
+      * connect nodes (jump labels or falling through)
+      *)
+      fun connect (im, a::(b::r)) =
         let
           val instr = G.Table.look(im, a)
           (*connect nodes through jump labels*)
@@ -104,17 +115,42 @@ struct
                 case jump of SOME(labels) => connect_jump(a, labels)
                 | _ => ())
           | _ => ();
-          G.mk_edge {from=a, to=b}; (*connect nodes fall through*)
-          instrs2edges(im, b::r)
+          G.mk_edge {from=a, to=b}; (*connect nodes falling through*)
+          connect(im, b::r)
         end
-        | instrs2edges (_, _) = ()
+        | connect (_, _) = ()
       
 
-      val _ = instrs2edges(im, nodes)
-
+      val _ = connect(im, nodes)
       val fgraph = Flow.FGRAPH{control=graph, def=dm, use=um, ismove=mm}
       val outs = TextIO.openOut "/Users/chengu/git/cs421/as/as6/graph.dot"
-    in (Flow.dot(outs, fgraph);(fgraph,nodes)) end
+
+      fun printDefUse (nil, map) = ()
+        | printDefUse (node::rest, map) = 
+            let 
+              val l = valOf(G.Table.look(map, node))
+              fun printList nil = ()
+                | printList (node::rest) = 
+                    (print(Int.toString(node) ^ " ");
+                    printList(rest))
+            in 
+              print ("-----------\n");
+              print(G.nodename(node) ^ "\n");
+              printList(l);
+              print ("\n-----------\n");
+              printDefUse (rest, map)
+            end
+               
+
+
+
+    in (
+        Flow.dot(outs, fgraph);
+        (*print ("def map \n");
+        printDefUse(nodes, dm);
+        print ("use map \n");
+        printDefUse(nodes, um);*)
+        (fgraph, nodes)) end
 
 (* The "instrs2graph" function takes a list of assembly instructions,
    and constructs its flowgraph and also returns the list of nodes in

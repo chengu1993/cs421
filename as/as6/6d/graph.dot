@@ -1,0 +1,8 @@
+digraph g { 
+size="7,10"
+n0[shape=box,height=0.1,label="<- 102 \n100 <- \n106 <- 100 \n100 <- 106 \n"];
+n0 -> n6
+n0 -> n6
+n6[shape=box,height=0.1,label=""];
+}
+
