@@ -1,0 +1,10 @@
+let 
+
+  type rec = {first : string, second : rec}
+
+  var instrc  := rec{first= "first", second = rec{first= "seccond", second = nil} }
+in
+  print(instrc.second.first);
+  print("\n");
+  print(instrc.second.second.first)
+end 

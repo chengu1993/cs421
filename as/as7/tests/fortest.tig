@@ -1,0 +1,4 @@
+let
+in
+	for i := 0 to 9 do (print(chr(i+ord("0")));print("\n"))
+end

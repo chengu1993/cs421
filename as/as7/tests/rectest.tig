@@ -1,0 +1,10 @@
+let
+type wordpair = {first: int, second: string} 
+var w : wordpair := wordpair { first=7, second="foo" } 
+in
+	print(chr(w.first+ord("0")));
+	print("\n");
+	print(w.second);
+	print("\n");
+        1
+end

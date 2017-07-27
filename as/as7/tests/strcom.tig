@@ -1,0 +1,6 @@
+let 
+    var c1 := "s1"
+    var c2 := "s2"
+in
+  if c1<=c2 then () else ()
+end

@@ -1,0 +1,7 @@
+/* valid for and let */
+
+let
+	var a:= 73
+in 
+        a
+end

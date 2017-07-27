@@ -1,0 +1,61 @@
+/* Type a sentence, end it with a period, hit enter. */
+let type strarray = array of string
+
+    function readSentence() : string =
+    let var curChar := getchar()
+        var str := ""
+     in while curChar <> "." do (
+            str := concat(str, curChar);
+            curChar := getchar()
+        );
+        str
+    end
+    
+    type lenarray = {length : int, items : strarray}
+    
+    function split(str : string, char : string) : lenarray =
+    let var strlen := size(str)
+        
+        function calcNumChunks() : int =
+        let var nChunks := 1
+            var prev := 0
+         in for pos := 0 to strlen - 1 do
+                let var curChar := substring(str, pos, 1)
+                 in if curChar = char then (
+                        if pos - prev > 1 then nChunks := nChunks + 1
+                        else prev := pos
+                    )
+                end;
+            nChunks
+        end
+        
+        var nChunks := calcNumChunks()
+        var words := strarray [nChunks] of ""
+        var prev := -1
+        var wi := 0
+       
+     in for p := 0 to strlen - 1 do
+            let var curChar := substring(str, p, 1)
+             in if curChar = char then (
+                    if p - prev > 1 then (
+                        words[wi] := substring(str, prev + 1, p - prev - 1);
+                        prev := p;
+                        wi := wi + 1
+                    );
+                    prev := p
+                )
+            end;
+        if strlen - 1 - prev > 1 then
+            words[wi] := substring(str, prev + 1, strlen - prev - 1);
+        lenarray {length = nChunks, items = words}
+    end
+
+    var sentence := readSentence()
+    var words := split(sentence, " ")
+    
+ in print(concat(concat("reversing: ", sentence), "\n"));
+    for i := 0 to words.length - 2 do
+        print(concat(words.items[words.length - 1 - i], " "));
+    print(words.items[0]);
+    print("\n")
+end

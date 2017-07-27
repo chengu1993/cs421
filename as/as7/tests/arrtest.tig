@@ -1,0 +1,12 @@
+let
+    var N := 8
+    type intArray = array of int
+    var row := intArray [ N ] of 9
+
+ in 
+ 
+  for i := 0 to (N-2) do row[i]:=i; 
+  for i := 0 to (N-1) do (print(chr(row[i]+ord("0")));print("\n"))
+	
+end
+	

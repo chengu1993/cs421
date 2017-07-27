@@ -1,0 +1,34 @@
+let 
+
+  var test_string :="it works\n"
+
+
+  function outer_function(sout : string) = 
+    ( 
+      print("Entering outer_function\n");
+      let 
+	function inner_function(sin : string) = 
+	(
+	    print("Entering inner_function\n");
+	    print(sout); print(sin); print(test_string);
+	    print("Exiting inner_function\n")
+	)
+	function call_inner_function() = 
+	(
+	    print("Entering call_inner_function\n");
+	    inner_function("calling in\n"); inner_function(sout); 
+	    print("Exiting call_inner_function\n")
+	)
+      in
+
+	inner_function("inner string\n");
+	call_inner_function()
+      end;
+      print("Exiting outer_function\n")
+    )
+
+  function printout(st : string)= (print(st))
+
+in
+  outer_function("outer string\n")
+end

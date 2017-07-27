@@ -1,0 +1,9 @@
+let
+  type c=array of l
+  type a = { x : c}
+  type b= array of a
+  type l = b
+  
+in
+  
+end

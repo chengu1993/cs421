@@ -1,0 +1,5 @@
+
+for i := 1 to 10 do
+print(if 3=2 then "greater\n" else "SLEEP\n")
+
+

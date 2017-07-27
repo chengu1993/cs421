@@ -1,0 +1,32 @@
+************************OVERVIEW************************************
+In this assignment, I implement an Register Allocator described in ch10 and ch11 in Appel's Book. This assignment can be split into 3 stages.
+
+State 1 Assem.instr list -> Flow.flowgraph * Flow.Graph.node list
+
+The input of this stage is the output of Codegen maximal munch. Each instruction is mapped to a node in the control flow grpah. If instruction m can be followed by instruction n (either by a jump or by falling through), then there will be an edge (m, n) in the graph. Meanwhile, three tables are maintained to store each instruction's definitions, uses and move information, which is later used in calculating liveness. The output of this stage is a control flow graph along with all the nodes in the graph.
+
+Stage 2 Flow.flowgraph -> Liveness.igraph * (Flow.Graph.node -> Temp.temp list)
+
+With the control flow graph generated in Stage 1 and algorithms described in ch10, it's not hard to produce the liveness information for each instruction. We iteratively update the livein and liveout map until we find a fixed point. We may reverse the nodes sequence to reduce the computation time. We then use liveout map to generate interference graph. Each temporary is mapped to a node in interference graph. We only need to scan each node in the flow graph and add interference edge properly. For move operation, this is suboptimal, I implemented a special treatment of move instructions in order to eliminate move instructions later. The output of stage 2 is an interference graph and a mapping function which gives all liveout temporaries give a instruction node.
+
+
+Stage 3 Liveness.igraph * initial * registers -> allocation
+
+The interference graph is generated in stage 2, the initial mapping for special registers and available registers are defined in Codegen register.sml. Since we don't need to worry about coalescing and spilling, we can assume we have enough number of registers. First in the simplify process we delete nodes with degree less than K (K is the number of available registers) and push all the deleted nodes with its neighbors on a stack. Then pop all the nodes and reconstruct the interference graph. During reconstruction, we assign color for each temporary. The result of this stage is an allocation map from temporary to register.
+
+
+***************************ASSUMPTION******************************
+In current implementation, I assume there will be enough hidden registers for tiger programs, so I do not implement coalescing and spilling. Under such assumption, simplify and select should be sufficient for coloring algorithm.
+ 
+***************************USAGE***********************************
+Copy my RegAlloc to your directory.
+You may add following line into the main.sml
+ 	
+val (fgraph, fnodes) = MakeGraph.instrs2graph instrs
+val (igraph, livenessMap) = Liveness.interferenceGraph fgraph
+val initial = foldr (fn ((temp, reg), tab) => Temp.Table.enter     
+    (tab, temp, reg)) Temp.Table.empty R.specialregs
+val registerAllocations = RegAlloc.color
+          {interference = igraph, 
+          initial = initiasl, 
+          registers = registers}

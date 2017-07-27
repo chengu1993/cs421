@@ -1,0 +1,7 @@
+let
+    /* negative index: should throw out of bounds exception */
+    type intarray = array of int
+    var arr := intarray[10] of 0
+in
+    arr[-1]; print("should have failed\n")
+end

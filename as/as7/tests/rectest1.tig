@@ -1,0 +1,7 @@
+let
+type word = {first: int, second: string} 
+var w : word := word { first=7, second="foo" } 
+in
+	w.first;
+        1
+end

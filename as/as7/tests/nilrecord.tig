@@ -1,0 +1,6 @@
+let
+    type point = {x:int, y:int}
+    var p:point := nil
+in
+    p.x; print("should have failed\n")
+end

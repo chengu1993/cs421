@@ -1,0 +1,13 @@
+let
+    /* The string should print out 10 times,
+        however most people probably print 3 times
+        or throw an index out of bounds exception
+        even though there is none */
+    type stringarray = array of string
+    var N := 10
+    var arr := stringarray[N] of "Should Print 10 Times\n"
+    var i := -1
+in
+    while(i < N-1) do
+        print(arr[(i:=i+1; i)]) /* == arr[++i] */
+end

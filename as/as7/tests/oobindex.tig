@@ -1,0 +1,8 @@
+let
+    /* out of bounds error checking: index greater than or equal to size of array
+        should throw out of bounds exception */
+    type intarray = array of int
+    var arr := intarray[10] of 0
+in
+    arr[11]; print("should have failed\n")
+end

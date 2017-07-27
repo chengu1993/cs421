@@ -1,0 +1,33 @@
+let 
+
+	 function printint(i: int) =
+	  (let 
+		function f(i:int) = 
+			 if i>0 
+			 then (f(i/10); print(chr(i-(i/10)*10+ord("0"))))
+	   in if i<0 then (print("-"); f(-i))
+		  else if i>0 then f(i)
+		  else print("0")
+	  end)
+
+  type rec = {first : string, second : rec}
+ type recarray = array of rec
+
+  var instrc  := rec{first= "first", second = rec{first= "seccond", second = nil} }
+ var instrc2 := instrc.second
+  var myrecarray   : recarray :=  recarray[5] of instrc
+in
+  print(instrc.second.first);
+  print("\n");
+
+ 	myrecarray[2] := instrc2;
+
+	print(myrecarray[0] .first);print("\n");
+	print(myrecarray[2] .first);print("\n");
+	print(instrc2.first);print("\n");
+ 	for index :=0 to 3 do (printint(index);print(myrecarray[index].first); print("\n"));
+
+	while( instrc <> nil ) do (print(instrc.first); print("\n"); instrc := instrc.second)
+
+ 
+end 

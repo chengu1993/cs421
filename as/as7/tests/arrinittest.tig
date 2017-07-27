@@ -1,0 +1,13 @@
+let
+    /* array expressions:
+        If itree modules have been able to pass my previous test for disallowing
+        a negative array size, they most likely will fail this test.
+        In comparing the size expression of the array, they might reevaluate
+        the size multiple times, ignoring the possibility for sideffects.
+        As these checks should be invisible to the user, the string "Creating Array"
+        should only be printed once, no more, no less */
+    type intarray = array of int
+    var arr := intarray [(print("Creating Array\n");5)] of 10
+in
+    arr[3]
+end

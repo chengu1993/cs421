@@ -1,0 +1,8 @@
+let
+    /* nill array checking: runtime.c malloc function
+        returns a NULL pointer, should throw exception (not allowed) */
+    type intarray = array of int
+    var arr := intarray[-1000000] of 0
+in
+    print("should have failed\n"); arr
+end

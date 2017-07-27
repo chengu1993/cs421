@@ -1,0 +1,12 @@
+let
+    /* nill array checking: runtime.c malloc function
+        returns a NULL pointer 
+        Most likely there will be an error when they
+        try to store the array size somewhere:
+        but that is dangerous behavior and therefore
+        should be prohibited */
+    type intarray = array of int
+    var arr := intarray[-2] of 0
+in
+    print("should have failed\n"); arr[11]
+end

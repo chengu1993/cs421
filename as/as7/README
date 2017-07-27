@@ -1,0 +1,54 @@
+****************************COLLABORATION**************************
+I am using my own register allocator and codegen module. The IG module I am using is IG2.
+
+
+*****************************OVERVIEW******************************
+In this assignment, I implement the assembly code generation module described in ch8, ch9 and ch12 in Appel's book. This assignment can be split into 2 stages. 
+
+The first stage is to use maximal munch to emit assembly instructions for cannonicalized tree. During selection, codegen module is responsible for pushing and popping parameters before calling a function or procedure. This stage is happened before register allocation. 
+
+After We get the liveness information from register allocator module, we can now work on the second stage, which is responsible for add prolog and epilog for procedures. We need to preserve callersave registers based on the liveness information. Besides, calleesave register should be preserved before callee can use these registers.
+
+***************************ASSUMPTION******************************
+val NPSEUDOREGS = 30 
+val localsBaseOffset : int = ~4 * (NPSEUDOREGS + 1) 
+val paramBaseOffset : int = 8  
+
+special register mapping:
+    (RV, "%eax"), 
+    (FP, "%ebp"), 
+    (SP, "%esp"), 
+    (ECX, "%ecx"), 
+    (EDX, "%edx")]
+
+truecallersave registers:
+	"%eax",
+	"%ecx",
+	"%edx"
+
+callersave registers:
+	"f1"
+	...
+	"f30"
+
+calleesave registers:
+	"%ebx", 
+	"%edi", 
+	"%esi"
+
+***************************USAGE***********************************
+Copy my Codegen to your directory.
+You may add following line into the main.sml
+ 	
+
+(* perfom instruction selection using maximal munch*)
+val instrs = List.concat(map C.codegen stms')
+
+
+(* add prolog and epilog to procedures to perform actions like saving calleesave and callersave registers*)
+val assembly = C.procEntryExit
+      {name = name, 
+      body = map (fn instr => (instr, nil)) instrs,
+      allocation = allocation, 
+      formals = nil, 
+      frame = frame}

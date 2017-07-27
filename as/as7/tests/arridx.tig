@@ -1,0 +1,13 @@
+let
+    /* this test checks for proper handling
+        of side-effects in array expressions
+        each of the strings should only print out
+        once, however, they could be printed out
+        multiple times (3 for many) */
+    type intarray = array of int
+    var arr := intarray[10] of 0
+in
+    arr[(print("LOWER BOUND\n"); 1)];
+    arr[(print("UPPER BOUND\n"); 9)];
+    arr[(print("RANDOM ACCESS\n"); 4)]
+end
